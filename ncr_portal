@@ -1,0 +1,55 @@
+#!/usr/bin/env python3
+
+import npyscreen
+import os
+from ncr_portal_client import NCRPortalClient
+import time
+
+class InfoForm(npyscreen.BoxTitle):
+    _contained_widget = npyscreen.MultiLineEdit
+
+class NCRPortal(npyscreen.NPSApp):
+
+    def button_press(self):
+        task = self.m_task.get_selected_objects()[0]
+        instance = self.m_instance.get_selected_objects()[0]
+        self.info_form.value = f"Sending Task {task} for instance {instance}\n"
+        self.output = self.portal.run(task, instance)
+        self.info_form.value += self.output[0]
+        time.sleep(2)
+
+    def main(self):
+        self.max_height = 20
+        self.max_width = 80
+        self.output = "No Information Yet."
+        self.description = """Use the Arrow Keys or H-J-K-L to navigate.
+Select the instance you would
+like to modify, select the
+task, then select run."""
+        user = os.getenv('USER')
+        self.portal = NCRPortalClient()
+        instances = self.portal.get_instances()
+
+        F  = npyscreen.Form(name = "NCR Portal",)
+        t  = F.add(npyscreen.FixedText, value = f"NETID: {user}", height=self.max_height, width=40)
+        self.m_instance = F.add(npyscreen.TitleSelectOne, max_height=4, value = [0,],
+                name="INSTANCE(S)",
+                values = instances, 
+                scroll_exit=True,
+                width=40)
+        self.m_task = F.add(npyscreen.TitleSelectOne, 
+                width=40,
+                max_height=4, 
+                value = [0,],
+                name="TASK",
+                values = ["START","SHUTDOWN","REBOOT","INFO"], 
+                scroll_exit=True)
+        button = F.add(npyscreen.ButtonPress, name="RUN", when_pressed_function=self.button_press)
+        self.info_form  = F.add(InfoForm, name = f"Info", value = self.output)
+        self.descr_form  = F.add(InfoForm, name = f"Usage", value = self.description, rely=1, height=(self.max_height)//2, relx=(self.max_width+6)//2)
+
+        F.edit()
+
+if __name__ == "__main__":
+    App = NCRPortal()
+    App.run()
