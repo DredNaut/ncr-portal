@@ -36,7 +36,7 @@ class NCRPortalClient():
         if self.debug:
             return (task, instance)
         else:
-            ssh_cmd = ['ssh', '-q', '-i', f'/root/.ssh/test', f'root@localhost', '-p', f'{self.DPORT', f"{task}", f'{instance}']
+            ssh_cmd = ['ssh', '-q', '-i', f'/root/.ssh/test', f'root@localhost', '-p', f'{self.DPORT}', f"{task}", f'{instance}']
             proc = subprocess.Popen(ssh_cmd, stdout=subprocess.PIPE)
             return proc.stdout.read().decode("utf-8").strip('\n][\'').split(', ')
 
