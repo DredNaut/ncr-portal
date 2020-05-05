@@ -10,15 +10,16 @@ class NCRPortalClient():
 
     def __init__(self):
         self.user = os.getenv('USER')
-        self.server = 'ncr-0.ncr'
+        self.DPORT = os.getenv('DPORT')
+        self.server = 'localhost'
         self.instances = []
-        self.debug = True
+        self.debug = False 
 
     def get_instances(self):
         if self.debug:
             ouput = ("cs447-jaredk", "jaredk")
         else:
-            ssh_cmd = ['ssh', '-q', '-i', f'/home/{self.user}/.ssh/server', f'ncr_portal@{self.server}', "query", '']
+            ssh_cmd = ['ssh', '-q', '-i', '/root/.ssh/test', 'root@localhost', '-p', f'{self.DPORT}', "query", '']
             proc = subprocess.Popen(ssh_cmd, stdout=subprocess.PIPE)
             output = proc.stdout.read().decode("utf-8")
             output = re.sub('[\n\[\]\']', '', output)
@@ -35,7 +36,7 @@ class NCRPortalClient():
         if self.debug:
             return (task, instance)
         else:
-            ssh_cmd = ['ssh', '-q', '-i', f'/home/{self.user}/.ssh/server', f'ncr_portal@{self.server}', f"{task}", f'{instance}']
+            ssh_cmd = ['ssh', '-q', '-i', f'/root/.ssh/test', f'root@localhost', '-p', f'{self.DPORT', f"{task}", f'{instance}']
             proc = subprocess.Popen(ssh_cmd, stdout=subprocess.PIPE)
             return proc.stdout.read().decode("utf-8").strip('\n][\'').split(', ')
 
