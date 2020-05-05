@@ -13,11 +13,11 @@ class NCRPortalClient():
         self.DPORT = os.getenv('DPORT')
         self.server = 'localhost'
         self.instances = []
-        self.debug = False 
+        self.debug = True
 
     def get_instances(self):
         if self.debug:
-            ouput = ("cs447-jaredk", "jaredk")
+            ouput = ("TEST-jaredk", "jaredk")
         else:
             ssh_cmd = ['ssh', '-q', '-i', '/root/.ssh/test', 'root@172.18.0.2',  "query", '']
             proc = subprocess.Popen(ssh_cmd, stdout=subprocess.PIPE)

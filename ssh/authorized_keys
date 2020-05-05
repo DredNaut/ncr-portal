@@ -1,2 +1,2 @@
-ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGzWFyyobCrH4oz6Gwp8C6F75Ynmch5VOzOMTPcwXqVb ClientKey
+environment="NETID=jaredk", command="/usr/bin/python3 /root/.ssh/ncr_portal_server.py", ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGzWFyyobCrH4oz6Gwp8C6F75Ynmch5VOzOMTPcwXqVb ClientKey
 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIC8xwC7QUqQBX0Z5RJDkvZDL8lt7e9xTiNBXO6j/snc ManagementKey
