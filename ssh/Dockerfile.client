@@ -1,4 +1,4 @@
-FROM ubuntu:16.04
+FROM ubuntu:18.04
 
 WORKDIR /usr/src/app
 RUN apt-get update && apt-get install -y openssh-server python3 python3-pip
@@ -10,9 +10,11 @@ COPY ./.ssh/test /root/.ssh/
 COPY ./ncr_portal_client.py /usr/local/bin/
 COPY ./ncr_portal /usr/local/bin/
 COPY requirements.txt ./
-COPY ncr_portal ./
-COPY ncr_portal_client.py ./
+COPY ./ncr_portal_client.py ./
+COPY ./ncr_portal ./
+COPY server_ip /root/
 RUN chmod +x /usr/local/bin ncr_portal*
+RUN echo "export NETID=jaredk" >> /root/.bashrc
 
 RUN pip3 install --no-cache-dir -r requirements.txt
 

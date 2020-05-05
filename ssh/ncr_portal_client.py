@@ -9,7 +9,7 @@ import paramiko
 class NCRPortalClient():
 
     def __init__(self):
-        self.user = os.getenv('USER')
+        self.user = os.getenv('NETID')
         self.DPORT = os.getenv('DPORT')
         self.server = 'localhost'
         self.instances = []
@@ -19,7 +19,7 @@ class NCRPortalClient():
         if self.debug:
             ouput = ("cs447-jaredk", "jaredk")
         else:
-            ssh_cmd = ['ssh', '-q', '-i', '/root/.ssh/test', 'root@localhost', '-p', f'{self.DPORT}', "query", '']
+            ssh_cmd = ['ssh', '-q', '-i', '/root/.ssh/test', 'root@172.18.0.2',  "query", '']
             proc = subprocess.Popen(ssh_cmd, stdout=subprocess.PIPE)
             output = proc.stdout.read().decode("utf-8")
             output = re.sub('[\n\[\]\']', '', output)
@@ -36,7 +36,7 @@ class NCRPortalClient():
         if self.debug:
             return (task, instance)
         else:
-            ssh_cmd = ['ssh', '-q', '-i', f'/root/.ssh/test', f'root@localhost', '-p', f'{self.DPORT}', f"{task}", f'{instance}']
+            ssh_cmd = ['ssh', '-q', '-i', f'/root/.ssh/test', f'root@172.18.0.2', f"{task}", f'{instance}']
             proc = subprocess.Popen(ssh_cmd, stdout=subprocess.PIPE)
             return proc.stdout.read().decode("utf-8").strip('\n][\'').split(', ')
 
